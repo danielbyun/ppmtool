@@ -8,4 +8,5 @@ public interface ProjectService {
     Project saveOrUpdate(Project project);
     Project findByProjectIdentifier(String projectIdentifier);
     List<Project> findAllProjects();
+    void deleteProjectByIdentifier(String projectIdentifier);
 }

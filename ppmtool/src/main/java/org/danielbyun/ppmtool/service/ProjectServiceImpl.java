@@ -43,4 +43,16 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Project> findAllProjects() {
         return projectRepository.findAll();
     }
+
+    @Override
+    public void deleteProjectByIdentifier(String projectIdentifier) {
+        Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
+
+        if (project == null) {
+            throw new ProjectIDException("Cannot delete Project with ID: '" + projectIdentifier + "'. This project " +
+                    "does not exist");
+        }
+
+        projectRepository.delete(project);
+    }
 }
