@@ -1,4 +1,4 @@
-package org.danielbyun.ppmtool.util;
+package org.danielbyun.ppmtool.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

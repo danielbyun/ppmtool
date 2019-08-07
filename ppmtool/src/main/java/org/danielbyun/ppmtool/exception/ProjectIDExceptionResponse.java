@@ -1,4 +1,4 @@
-package org.danielbyun.ppmtool.util;
+package org.danielbyun.ppmtool.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

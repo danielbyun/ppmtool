@@ -1,10 +1,12 @@
 package org.danielbyun.ppmtool.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.danielbyun.ppmtool.exception.ProjectIDException;
 import org.danielbyun.ppmtool.model.Project;
 import org.danielbyun.ppmtool.repository.ProjectRepository;
-import org.danielbyun.ppmtool.util.ProjectIDException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -35,5 +37,10 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         return project;
+    }
+
+    @Override
+    public List<Project> findAllProjects() {
+        return projectRepository.findAll();
     }
 }
