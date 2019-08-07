@@ -25,4 +25,15 @@ public class ProjectServiceImpl implements ProjectService {
                     "exists");
         }
     }
+
+    @Override
+    public Project findByProjectIdentifier(String projectIdentifier) {
+        Project project = projectRepository.findByProjectIdentifier(projectIdentifier);
+
+        if (project == null) {
+            throw new ProjectIDException("Project ID: " + projectIdentifier + " does not exist");
+        }
+
+        return project;
+    }
 }
