@@ -4,7 +4,7 @@ import Dashboard from "./Components/Dashboard";
 import Header from "./Components/Layout/header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import AddProject from "./Components/Project/addProject";
+import AddProject from "./Components/Project/AddProject";
 import { Provider } from "react-redux"; // for the store
 import store from "./Store";
 
