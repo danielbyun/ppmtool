@@ -41,6 +41,10 @@ class UpdateProject extends Component {
       start_date,
       end_date
     });
+    if (nextProps.errors) {
+      // grab the errors object and load it
+      this.setState({ errors: nextProps.errors });
+    }
   }
 
   componentDidMount() {
@@ -85,32 +89,49 @@ class UpdateProject extends Component {
                 <div className="form-group">
                   <input
                     type="text"
-                    className="form-control form-control-lg "
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.projectName
+                    })}
                     placeholder={this.state.projectName}
                     name="projectName"
                     value={this.state.projectName}
                     onChange={this.onChange}
                   />
+                  {errors.projectName && (
+                    <div className="invalid-feedback">{errors.projectName}</div>
+                  )}
                 </div>
                 <div className="form-group">
                   <input
                     type="text"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.projectIdentifier
+                    })}
                     placeholder={this.state.projectIdentifier}
                     name="projectIdentifier"
                     value={this.state.projectIdentifier}
                     onChange={this.onChange}
                     disabled
                   />
+                  {errors.projectIdentifier && (
+                    <div className="invalid-feedback">
+                      {errors.projectIdentifier}
+                    </div>
+                  )}
                 </div>
                 <div className="form-group">
                   <textarea
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.description
+                    })}
                     placeholder={this.state.description}
                     name="description"
                     value={this.state.description}
                     onChange={this.onChange}
                   />
+                  {errors.description && (
+                    <div className="invalid-feedback">{errors.description}</div>
+                  )}
                 </div>
                 <h6>Start Date</h6>
                 <div className="form-group">
