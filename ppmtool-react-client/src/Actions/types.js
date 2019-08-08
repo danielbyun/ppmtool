@@ -4,3 +4,5 @@ export const GET_ERRORS = "GET_ERRORS";
 export const GET_PROJECTS = "GET_PROJECTS";
 // getting one project
 export const GET_PROJECT = "GET_PROJECT";
+// deleting project
+export const DELETE_PROJECT = "DELETE_PROJECT";

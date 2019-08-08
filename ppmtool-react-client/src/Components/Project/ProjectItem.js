@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { deleteProject } from "../../Actions/projectActions";
 
 class ProjectItem extends Component {
+  onDeleteClick = id => {
+    this.props.deleteProject(id);
+  };
+
   render() {
     // plug it the props from Dashboard that was sent here
     const { project } = this.props;
@@ -37,12 +44,16 @@ class ProjectItem extends Component {
                       Update Project Info
                     </li>
                   </Link>
-                  <a href="">
-                    <li className="list-group-item delete">
-                      <i className="fa fa-minus-circle pr-1" />
-                      Delete Project
-                    </li>
-                  </a>
+                  <li
+                    className="list-group-item delete"
+                    onClick={this.onDeleteClick.bind(
+                      this,
+                      project.projectIdentifier
+                    )}
+                  >
+                    <i className="fa fa-minus-circle pr-1" />
+                    Delete Project
+                  </li>
                 </ul>
               </div>
             </div>
@@ -56,4 +67,11 @@ class ProjectItem extends Component {
   }
 }
 
-export default ProjectItem;
+ProjectItem.propTypes = {
+  deleteProject: PropTypes.func.isRequired
+};
+
+export default connect(
+  null,
+  { deleteProject }
+)(ProjectItem);
