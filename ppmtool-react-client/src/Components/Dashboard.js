@@ -13,6 +13,8 @@ class Dashboard extends Component {
     this.props.getProjects();
   }
   render() {
+    // the list of projects returned from the server to display to the UI
+    const { projects } = this.props.project;
     return (
       <>
         <div className="projects">
@@ -24,7 +26,13 @@ class Dashboard extends Component {
                 <CreateProjectButton />
                 <br />
                 <hr />
-                <ProjectItem />
+                {
+                  // wire it up here to display
+                  // by using the map function
+                }
+                {projects.map(project => (
+                  <ProjectItem key={project.id} project={project} />
+                ))}
               </div>
             </div>
           </div>
