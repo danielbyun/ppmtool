@@ -1,8 +1,17 @@
 import React, { Component } from "react";
 import ProjectItem from "./Project/ProjectItem";
 import CreateProjectButton from "./Project/CreateProjectButton";
+import { connect } from "react-redux";
+import { getProjects } from "../Actions/projectActions";
+import PropTypes from "prop-types";
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
+  // lifecycle hook
+  // what happens when we mount
+  componentDidMount() {
+    // call the function
+    this.props.getProjects();
+  }
   render() {
     return (
       <>
@@ -24,3 +33,17 @@ export default class Dashboard extends Component {
     );
   }
 }
+
+Dashboard.propTypes = {
+  project: PropTypes.object.isRequired,
+  getProjects: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  project: state.project
+});
+
+export default connect(
+  mapStateToProps,
+  { getProjects }
+)(Dashboard);
