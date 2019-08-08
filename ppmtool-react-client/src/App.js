@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import "./App.css";
-import Dashboard from "./Components/Dashboard";
-import Header from "./Components/Layout/Header";
+import Dashboard from "./Components/dashboard";
+import Header from "./Components/Layout/header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import AddProject from "./Components/Project/AddProject";
+import AddProject from "./Components/Project/addProject";
 import { Provider } from "react-redux"; // for the store
 import store from "./Store";
 
