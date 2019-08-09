@@ -1,5 +1,6 @@
 package org.danielbyun.ppmtool.service;
 
+import org.danielbyun.ppmtool.model.Backlog;
 import org.danielbyun.ppmtool.model.ProjectTask;
 import org.danielbyun.ppmtool.repository.BacklogRepository;
 import org.danielbyun.ppmtool.repository.ProjectRepository;
@@ -19,15 +20,31 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
 
     @Override
-    public ProjectTask addProjectTask() {
-        // PTS to be added to a specific project, project != null, BL exists
-        // set the BL to PT
-        // we want our project sequence to be like this IDPRO-1, IDPRO-2
-        // update the BL sequence
+    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask) {
+        //Exceptions: Project not found
 
-        // INITIAL priority when priority is null
-        // INITIAL status when status is null
+        //PTs to be added to a specific project, project != null, BL exists
+        Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
+        //set the bl to pt
+        projectTask.setBacklog(backlog);
+        //we want our project sequence to be like this: IDPRO-1  IDPRO-2  ...100 101
+        Integer BacklogSequence = backlog.getPTSequence();
+        // Update the BL SEQUENCE
+        BacklogSequence++;
 
-        return null;
+        //Add Sequence to Project Task
+        projectTask.setProjectSequence(projectIdentifier + "-" + BacklogSequence);
+        projectTask.setProjectIdentifier(projectIdentifier);
+
+        //INITIAL priority when priority null
+//        if(projectTask.getPriority()==0||projectTask.getPriority()==null){
+//            projectTask.setPriority(3);
+//        }
+        //INITIAL status when status is null
+//        if (projectTask.getStatus().equals("") || projectTask.getStatus() == null) {
+//            projectTask.setStatus("TO_DO");
+//        }
+
+        return projectTaskRepository.save(projectTask);
     }
 }

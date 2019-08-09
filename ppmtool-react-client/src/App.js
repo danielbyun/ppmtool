@@ -26,6 +26,4 @@ class App extends Component {
   }
 }
 
-// setup store
-
 export default App;
