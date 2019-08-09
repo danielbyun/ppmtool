@@ -1,5 +1,6 @@
 package org.danielbyun.ppmtool.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.danielbyun.ppmtool.model.Backlog;
 import org.danielbyun.ppmtool.model.ProjectTask;
 import org.danielbyun.ppmtool.repository.BacklogRepository;
@@ -7,6 +8,7 @@ import org.danielbyun.ppmtool.repository.ProjectRepository;
 import org.danielbyun.ppmtool.repository.ProjectTaskRepository;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class ProjectTaskServiceImpl implements ProjectTaskService {
     private final BacklogRepository backlogRepository;
@@ -32,18 +34,23 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         // Update the BL SEQUENCE
         BacklogSequence++;
 
+        backlog.setPTSequence(BacklogSequence);
+
         //Add Sequence to Project Task
         projectTask.setProjectSequence(projectIdentifier + "-" + BacklogSequence);
         projectTask.setProjectIdentifier(projectIdentifier);
 
-        //INITIAL priority when priority null
-//        if(projectTask.getPriority()==0||projectTask.getPriority()==null){
-//            projectTask.setPriority(3);
-//        }
+        log.info("ProjectTask: " + projectTask);
+
         //INITIAL status when status is null
-//        if (projectTask.getStatus().equals("") || projectTask.getStatus() == null) {
-//            projectTask.setStatus("TO_DO");
-//        }
+        if (projectTask.getStatus() == "" || projectTask.getStatus() == null) {
+            projectTask.setStatus("TO_DO");
+        }
+        //INITIAL priority when priority null
+        // in the future we need projectTask.getPriority() == 0 to handle the form
+        if (projectTask.getPriority() == null) {
+            projectTask.setPriority(3);
+        }
 
         return projectTaskRepository.save(projectTask);
     }
