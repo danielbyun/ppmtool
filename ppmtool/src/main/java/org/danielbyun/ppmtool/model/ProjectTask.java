@@ -1,12 +1,16 @@
 package org.danielbyun.ppmtool.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class ProjectTask {
     @Id
@@ -27,6 +31,11 @@ public class ProjectTask {
     private Date updated_at;
 
     // ManyToOne with Backlog
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "backlog_id", updatable = false, nullable = false)
+    @JsonIgnore
+    private Backlog backlog;
+
     @Column(updatable = false)
     private String projectIdentifier;
 
