@@ -1,6 +1,7 @@
 package org.danielbyun.ppmtool.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,7 +42,7 @@ public class Project {
 
     // if a project is deleted, all backlogs related to this project get deleted
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
-    //
+    @JsonIgnore
     private Backlog backlog;
 
     @PrePersist

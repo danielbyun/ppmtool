@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.danielbyun.ppmtool.model.Project;
 import org.danielbyun.ppmtool.service.MapValidationErrorService;
 import org.danielbyun.ppmtool.service.ProjectService;
+import org.danielbyun.ppmtool.service.ProjectTaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,10 +18,13 @@ import javax.validation.Valid;
 @CrossOrigin
 public class ProjectController {
     private final ProjectService projectService;
+    private final ProjectTaskService projectTaskService;
     private final MapValidationErrorService mapValidationErrorService;
 
-    public ProjectController(ProjectService projectService, MapValidationErrorService mapValidationErrorService) {
+    public ProjectController(ProjectService projectService, ProjectTaskService projectTaskService,
+                             MapValidationErrorService mapValidationErrorService) {
         this.projectService = projectService;
+        this.projectTaskService = projectTaskService;
         this.mapValidationErrorService = mapValidationErrorService;
     }
 
