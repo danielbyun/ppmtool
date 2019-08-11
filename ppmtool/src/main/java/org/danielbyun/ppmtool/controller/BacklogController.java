@@ -31,9 +31,10 @@ public class BacklogController {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
 
         if (errorMap != null) {
+            log.info("error: " + errorMap);
             return errorMap;
         }
-        log.info("new project: " + projectTask.toString());
+        log.info("new project task: " + projectTask.toString());
         projectTaskService.addProjectTask(backlog_id, projectTask);
 
         return new ResponseEntity<>(projectTask, HttpStatus.CREATED);
