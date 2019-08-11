@@ -10,6 +10,8 @@ import org.danielbyun.ppmtool.repository.ProjectRepository;
 import org.danielbyun.ppmtool.repository.ProjectTaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class ProjectTaskServiceImpl implements ProjectTaskService {
@@ -90,7 +92,7 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         // make sure that the backlog / project id in the path corresponds to the right project
         if (!projectTask.getProjectIdentifier().equals(backlog_id)) {
             // we pass backlog_id bc they share the projectIdentifier
-            throw new ProjectNotFoundException("Project Task: '" + pt_id + "' does not exist in Project: '" + backlog_id + "'.");
+            throw new ProjectNotFoundException("Project Task: '" + pt_id + "' does not exist in Project: '" + backlog_id + "'");
         }
 
         return projectTask;
@@ -100,14 +102,24 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
     @Override
     public ProjectTask updateByProjectSequence(ProjectTask updatedTask, String backlog_id, String pt_id) {
         // find existing project task
-        ProjectTask projectTask = projectTaskRepository.findByProjectSequence(updatedTask.getProjectSequence());
+        ProjectTask projectTask = findPTByProjectSequence(backlog_id, pt_id);
 
         // replace it with updated task
         projectTask = updatedTask;
-        // save / update
 
+        // save / update
         return projectTaskRepository.save(projectTask);
     }
 
+    @Override
+    public void deletePTByProjectSequence(String backlog_id, String pt_id) {
+        ProjectTask projectTask = findPTByProjectSequence(backlog_id, pt_id);
 
+        Backlog backlog = projectTask.getBacklog();
+        List<ProjectTask> pts = projectTask.getBacklog().getProjectTasks();
+        pts.remove(projectTask);
+        backlogRepository.save(backlog);
+
+        projectTaskRepository.delete(projectTask);
+    }
 }
