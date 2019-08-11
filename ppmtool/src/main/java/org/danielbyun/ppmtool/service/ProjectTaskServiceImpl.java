@@ -52,7 +52,7 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
             }
             //INITIAL priority when priority null
             // in the future we need projectTask.getPriority() == 0 to handle the form
-            if (projectTask.getPriority() == null) {
+            if (projectTask.getPriority() == 0 || projectTask.getPriority() == null) {
                 projectTask.setPriority(3);
             }
 
