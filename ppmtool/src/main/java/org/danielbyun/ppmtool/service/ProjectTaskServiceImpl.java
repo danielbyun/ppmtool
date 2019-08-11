@@ -10,8 +10,6 @@ import org.danielbyun.ppmtool.repository.ProjectRepository;
 import org.danielbyun.ppmtool.repository.ProjectTaskRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Slf4j
 @Service
 public class ProjectTaskServiceImpl implements ProjectTaskService {
@@ -114,11 +112,6 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
     @Override
     public void deletePTByProjectSequence(String backlog_id, String pt_id) {
         ProjectTask projectTask = findPTByProjectSequence(backlog_id, pt_id);
-
-        Backlog backlog = projectTask.getBacklog();
-        List<ProjectTask> pts = projectTask.getBacklog().getProjectTasks();
-        pts.remove(projectTask);
-        backlogRepository.save(backlog);
 
         projectTaskRepository.delete(projectTask);
     }
