@@ -74,7 +74,7 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
     }
 
     @Override
-    public ProjectTask findPTBYProjectSequence(String backlog_id, String pt_id) {
+    public ProjectTask findPTByProjectSequence(String backlog_id, String pt_id) {
         // make sure we are searching on the right backlog
         Backlog backlog = backlogRepository.findByProjectIdentifier(backlog_id);
         if (backlog == null) {
@@ -95,4 +95,19 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
         return projectTask;
     }
+
+    // update project task
+    @Override
+    public ProjectTask updateByProjectSequence(ProjectTask updatedTask, String backlog_id, String pt_id) {
+        // find existing project task
+        ProjectTask projectTask = projectTaskRepository.findByProjectSequence(updatedTask.getProjectSequence());
+
+        // replace it with updated task
+        projectTask = updatedTask;
+        // save / update
+
+        return projectTaskRepository.save(projectTask);
+    }
+
+
 }
