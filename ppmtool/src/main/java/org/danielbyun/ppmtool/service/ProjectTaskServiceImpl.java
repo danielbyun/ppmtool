@@ -72,4 +72,12 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(backlog_id);
     }
+
+    @Override
+    public ProjectTask findPTBYProjectSequence(String backlog_id, String pt_id) {
+        // make sure we are searching on the right backlog
+
+
+        return projectTaskRepository.findByProjectSequence(pt_id);
+    }
 }
