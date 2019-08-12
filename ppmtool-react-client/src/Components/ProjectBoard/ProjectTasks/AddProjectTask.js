@@ -47,8 +47,6 @@ class AddProjectTask extends Component {
       dueDate: this.state.dueDate
     };
 
-    // console.log(newProjectTask);
-
     // addProjectTask in backlogActions.js - add all variables that it's expecting
     this.props.addProjectTask(
       this.state.projectIdentifier,
@@ -83,6 +81,9 @@ class AddProjectTask extends Component {
                     value={this.state.summary}
                     onChange={this.onChange}
                   />
+                  {errors.summary && (
+                    <div className="invalid-feedback">{errors.summary}</div>
+                  )}
                 </div>
                 <div className="form-group">
                   <textarea
@@ -94,6 +95,11 @@ class AddProjectTask extends Component {
                     value={this.state.acceptanceCriteria}
                     onChange={this.onChange}
                   />
+                  {errors.acceptanceCriteria && (
+                    <div className="invalid-feedback">
+                      {errors.acceptanceCriteria}
+                    </div>
+                  )}
                 </div>
                 <h6>Due Date</h6>
                 <div className="form-group">
@@ -106,6 +112,9 @@ class AddProjectTask extends Component {
                     value={this.state.dueDate}
                     onChange={this.onChange}
                   />
+                  {errors.dueDate && (
+                    <div className="invalid-feedback">{errors.dueDate}</div>
+                  )}
                 </div>
                 <div className="form-group">
                   <select
@@ -116,6 +125,9 @@ class AddProjectTask extends Component {
                     value={this.state.priority}
                     onChange={this.onChange}
                   >
+                    {errors.priority && (
+                      <div className="invalid-feedback">{errors.priority}</div>
+                    )}
                     <option value={0}>Select Priority</option>
                     <option value={1}>High</option>
                     <option value={2}>Medium</option>
@@ -132,6 +144,9 @@ class AddProjectTask extends Component {
                     value={this.state.status}
                     onChange={this.onChange}
                   >
+                    {errors.status && (
+                      <div className="invalid-feedback">{errors.status}</div>
+                    )}
                     <option value="">Select Status</option>
                     <option value="TO_DO">TO DO</option>
                     <option value="IN_PROGRESS">IN PROGRESS</option>
