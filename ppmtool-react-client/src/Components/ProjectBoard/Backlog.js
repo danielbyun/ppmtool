@@ -13,20 +13,8 @@ class Backlog extends Component {
     let inProgressItems = [];
     let doneItems = [];
 
-    for (let i = 0; i < tasks.length; i++) {
-      console.log(tasks[i]);
-      if (tasks[i].props.project_task.status === "TO_DO") {
-        todoItems.push(tasks[i]);
-      }
+    sortTasks(tasks, todoItems, inProgressItems, doneItems);
 
-      if (tasks[i].props.project_task.status === "IN_PROGRESS") {
-        inProgressItems.push(tasks[i]);
-      }
-
-      if (tasks[i].props.project_task.status === "DONE") {
-        doneItems.push(tasks[i]);
-      }
-    }
     return (
       <div className="container">
         <div className="row">
@@ -61,3 +49,16 @@ class Backlog extends Component {
 }
 
 export default Backlog;
+function sortTasks(tasks, todoItems, inProgressItems, doneItems) {
+  for (let i = 0; i < tasks.length; i++) {
+    if (tasks[i].props.project_task.status === "TO_DO") {
+      todoItems.push(tasks[i]);
+    }
+    if (tasks[i].props.project_task.status === "IN_PROGRESS") {
+      inProgressItems.push(tasks[i]);
+    }
+    if (tasks[i].props.project_task.status === "DONE") {
+      doneItems.push(tasks[i]);
+    }
+  }
+}
