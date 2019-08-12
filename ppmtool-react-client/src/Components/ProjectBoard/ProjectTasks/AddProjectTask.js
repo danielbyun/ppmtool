@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { connect } from "react-redux";
-import { classnames } from "classnames";
+import classnames from "classnames";
 import { addProjectTask } from "../../../Actions/backlogActions";
 import PropTypes from "prop-types";
 
@@ -44,15 +44,23 @@ class AddProjectTask extends Component {
       acceptanceCriteria: this.state.acceptanceCriteria,
       status: this.state.status,
       priority: this.state.priority,
-      dueDate: this.state.dueDate,
-      projectIdentifier: this.state.projectIdentifier
+      dueDate: this.state.dueDate
     };
 
-    this.props.addProjectTask(newProjectTask, this.props.history);
+    // console.log(newProjectTask);
+
+    // addProjectTask in backlogActions.js - add all variables that it's expecting
+    this.props.addProjectTask(
+      this.state.projectIdentifier,
+      newProjectTask,
+      this.props.history
+    );
   }
 
   render() {
+    const { errors } = this.state;
     const { id } = this.props.match.params;
+
     return (
       <div className="add-PBI">
         <div className="container">
@@ -67,7 +75,9 @@ class AddProjectTask extends Component {
                 <div className="form-group">
                   <input
                     type="text"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.summary
+                    })}
                     name="summary"
                     placeholder="Project Task summary"
                     value={this.state.summary}
@@ -76,7 +86,9 @@ class AddProjectTask extends Component {
                 </div>
                 <div className="form-group">
                   <textarea
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.acceptanceCriteria
+                    })}
                     placeholder="Acceptance Criteria"
                     name="acceptanceCriteria"
                     value={this.state.acceptanceCriteria}
@@ -87,7 +99,9 @@ class AddProjectTask extends Component {
                 <div className="form-group">
                   <input
                     type="date"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.dueDate
+                    })}
                     name="dueDate"
                     value={this.state.dueDate}
                     onChange={this.onChange}
@@ -95,7 +109,9 @@ class AddProjectTask extends Component {
                 </div>
                 <div className="form-group">
                   <select
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.priority
+                    })}
                     name="priority"
                     value={this.state.priority}
                     onChange={this.onChange}
@@ -109,7 +125,9 @@ class AddProjectTask extends Component {
 
                 <div className="form-group">
                   <select
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.status
+                    })}
                     name="status"
                     value={this.state.status}
                     onChange={this.onChange}
