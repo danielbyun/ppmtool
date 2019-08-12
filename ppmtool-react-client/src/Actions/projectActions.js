@@ -10,10 +10,15 @@ export const createProject = (project, history) => async dispatch => {
     await axios.post("/api/project", project);
     // in spring controller basically the return statement
     history.push("/dashboard");
-  } catch (error) {
+    // clear error messages if any
     dispatch({
       type: GET_ERRORS,
       payload: {}
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error.response.data
     });
   }
 };
