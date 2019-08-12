@@ -40,6 +40,7 @@ public class BacklogController {
         return new ResponseEntity<>(projectTask, HttpStatus.CREATED);
     }
 
+    // getting all project tasks associated with the project
     @GetMapping("/{backlog_id}")
     public Iterable<ProjectTask> getProjectBacklog(@PathVariable String backlog_id) {
         return projectTaskService.findBacklogById(backlog_id);
