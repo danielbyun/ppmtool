@@ -4,17 +4,18 @@ import Backlog from "./Backlog";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getBacklog } from "../../Actions/backlogActions";
-import { SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION } from "constants";
 
 class ProjectBoard extends Component {
-  // constructor to handle errors
+  //constructor to handle errors
 
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.getBacklog(id);
   }
+
   render() {
     const { id } = this.props.match.params;
+    const { project_tasks } = this.props.backlog;
     return (
       <div className="container">
         <Link to={`/addProjectTask/${id}`} className="btn btn-primary mb-3">
@@ -22,19 +23,19 @@ class ProjectBoard extends Component {
         </Link>
         <br />
         <hr />
-        <Backlog />
+        <Backlog project_tasks_prop={project_tasks} />
       </div>
     );
   }
 }
+
 ProjectBoard.propTypes = {
   backlog: PropTypes.object.isRequired,
-  getBacklog: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired
+  getBacklog: PropTypes.func.isRequired
 };
+
 const mapStateToProps = state => ({
-  backlog: state.backlog,
-  errors: state.errors
+  backlog: state.backlog
 });
 
 export default connect(
