@@ -1,4 +1,4 @@
-package org.danielbyun.ppmtool.config;
+package org.danielbyun.ppmtool.security;
 
 import com.google.gson.Gson;
 import org.danielbyun.ppmtool.exception.InvalidLoginResponse;

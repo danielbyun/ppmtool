@@ -1,4 +1,4 @@
-package org.danielbyun.ppmtool.config;
+package org.danielbyun.ppmtool.security;
 
 public class SecurityConstants {
     public static final String SIGN_UP_URLS = "/api/users/**";

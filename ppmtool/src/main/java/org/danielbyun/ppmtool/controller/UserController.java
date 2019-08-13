@@ -1,6 +1,6 @@
 package org.danielbyun.ppmtool.controller;
 
-import org.danielbyun.ppmtool.config.JwtTokenProvider;
+import org.danielbyun.ppmtool.security.JwtTokenProvider;
 import org.danielbyun.ppmtool.model.User;
 import org.danielbyun.ppmtool.payload.JWTLoginSuccessResponse;
 import org.danielbyun.ppmtool.payload.LoginRequest;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static org.danielbyun.ppmtool.config.SecurityConstants.TOKEN_PREFIX;
+import static org.danielbyun.ppmtool.security.SecurityConstants.TOKEN_PREFIX;
 
 @RestController
 @RequestMapping("/api/users")

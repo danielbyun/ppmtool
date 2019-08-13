@@ -1,4 +1,4 @@
-package org.danielbyun.ppmtool.config;
+package org.danielbyun.ppmtool.security;
 
 import org.danielbyun.ppmtool.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
@@ -12,9 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.danielbyun.ppmtool.config.SecurityConstants.H2_URL;
-import static org.danielbyun.ppmtool.config.SecurityConstants.SIGN_UP_URLS;
+import static org.danielbyun.ppmtool.security.SecurityConstants.H2_URL;
+import static org.danielbyun.ppmtool.security.SecurityConstants.SIGN_UP_URLS;
 
 
 @Configuration
@@ -35,6 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.unauthorizedHandler = unauthorizedHandler;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.customUserDetailsService = customUserDetailsService;
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
     }
 
     @Override
@@ -73,6 +79,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(H2_URL).permitAll()
                 .anyRequest().authenticated();
 
-//        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

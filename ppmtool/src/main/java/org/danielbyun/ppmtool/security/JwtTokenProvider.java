@@ -1,7 +1,7 @@
-package org.danielbyun.ppmtool.config;
+package org.danielbyun.ppmtool.security;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.danielbyun.ppmtool.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -10,9 +10,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.danielbyun.ppmtool.config.SecurityConstants.EXPIRATION_TIME;
-import static org.danielbyun.ppmtool.config.SecurityConstants.SECRET;
+import static org.danielbyun.ppmtool.security.SecurityConstants.EXPIRATION_TIME;
+import static org.danielbyun.ppmtool.security.SecurityConstants.SECRET;
 
+@Slf4j
 @Component
 public class JwtTokenProvider {
     // generate the token
@@ -40,7 +41,30 @@ public class JwtTokenProvider {
     }
 
     // validate the token
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
+            return true;
+        } catch (SignatureException s) {
+            log.warn("Invalid JWT Signature");
+        } catch (MalformedJwtException ex) {
+            log.warn("Invalid JWT Token");
+        } catch (ExpiredJwtException ex) {
+            log.warn("Expired JWT Token");
+        } catch (UnsupportedJwtException ex) {
+            log.warn("Unsupported JWT Token");
+        } catch (IllegalArgumentException ex) {
+            log.warn("JWT claims string is empty");
+        }
 
+        return false;
+    }
 
     // get user id from token
+    public Long getUserIdFromJWT(String token) {
+        Claims claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
+        String id = (String) claims.get("id");
+
+        return Long.parseLong(id);
+    }
 }
