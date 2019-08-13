@@ -22,6 +22,7 @@ public class UserServiceImpl implements UserService {
             newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
             // username has to be unique
             newUser.setUsername(newUser.getUsername());
+            newUser.setConfirmPassword("");
             // make sure that password and confirmPassword match
             return userRepository.save(newUser);
         } catch (Exception e) {
