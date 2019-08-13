@@ -4,8 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.danielbyun.ppmtool.exception.ProjectIDException;
 import org.danielbyun.ppmtool.model.Backlog;
 import org.danielbyun.ppmtool.model.Project;
+import org.danielbyun.ppmtool.model.User;
 import org.danielbyun.ppmtool.repository.BacklogRepository;
 import org.danielbyun.ppmtool.repository.ProjectRepository;
+import org.danielbyun.ppmtool.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,16 +17,22 @@ import java.util.List;
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final BacklogRepository backlogRepository;
+    private final UserRepository userRepository;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, BacklogRepository backlogRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, BacklogRepository backlogRepository,
+                              UserRepository userRepository) {
         this.projectRepository = projectRepository;
         this.backlogRepository = backlogRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public Project saveOrUpdate(Project project) {
+    public Project saveOrUpdate(Project project, String username) {
         String identifier = project.getProjectIdentifier().toUpperCase();
         try {
+            User user = userRepository.findByUsername(username);
+            project.setUser(user);
+            project.setProjectLeader(user.getUsername());
             project.setProjectIdentifier(identifier);
 
             // on save, the ID will be null.

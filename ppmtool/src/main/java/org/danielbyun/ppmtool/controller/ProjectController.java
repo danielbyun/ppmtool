@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Slf4j
 @RestController
@@ -29,7 +30,8 @@ public class ProjectController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
+    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result,
+                                              Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
 
         if (errorMap != null) {
@@ -37,7 +39,7 @@ public class ProjectController {
         }
 
         log.info("new project: " + project.toString());
-        projectService.saveOrUpdate(project);
+        projectService.saveOrUpdate(project, principal.getName());
         return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
 
