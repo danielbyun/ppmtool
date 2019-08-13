@@ -28,6 +28,18 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project saveOrUpdate(Project project, String username) {
         String identifier = project.getProjectIdentifier().toUpperCase();
+
+        if (project.getId() != null) {
+            Project existingProject = projectRepository.findByProjectIdentifier(project.getProjectIdentifier());
+
+            if (existingProject != null && (!existingProject.getProjectLeader().equals(username))) {
+                throw new ProjectNotFoundException("Project not found in your account.");
+            } else if (existingProject == null) {
+                throw new ProjectNotFoundException("Project with ID: '" + project.getProjectIdentifier() + "' cannot " +
+                        "be updated because it doesn't exist.");
+            }
+        }
+
         try {
             User user = userRepository.findByUsername(username);
             project.setUser(user);
