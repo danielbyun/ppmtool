@@ -2,6 +2,7 @@ package org.danielbyun.ppmtool.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.danielbyun.ppmtool.exception.ProjectIDException;
+import org.danielbyun.ppmtool.exception.ProjectNotFoundException;
 import org.danielbyun.ppmtool.model.Backlog;
 import org.danielbyun.ppmtool.model.Project;
 import org.danielbyun.ppmtool.model.User;
@@ -9,8 +10,6 @@ import org.danielbyun.ppmtool.repository.BacklogRepository;
 import org.danielbyun.ppmtool.repository.ProjectRepository;
 import org.danielbyun.ppmtool.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -55,30 +54,27 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findByProjectIdentifier(String projectIdentifier) {
+    public Project findByProjectIdentifier(String projectIdentifier, String username) {
         Project project = projectRepository.findByProjectIdentifier(projectIdentifier);
 
         if (project == null) {
             throw new ProjectIDException("Project ID: " + projectIdentifier + " does not exist");
         }
 
+        if (!project.getProjectLeader().equals(username)) {
+            throw new ProjectNotFoundException("Project not found in your account");
+        }
+
         return project;
     }
 
     @Override
-    public List<Project> findAllProjects() {
-        return projectRepository.findAll();
+    public Iterable<Project> findAllProjects(String username) {
+        return projectRepository.findAllByProjectLeader(username);
     }
 
     @Override
-    public void deleteProjectByIdentifier(String projectIdentifier) {
-        Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
-
-        if (project == null) {
-            throw new ProjectIDException("Cannot delete Project with ID: '" + projectIdentifier + "'. This project " +
-                    "does not exist");
-        }
-
-        projectRepository.delete(project);
+    public void deleteProjectByIdentifier(String projectIdentifier, String username) {
+        projectRepository.delete(findByProjectIdentifier(projectIdentifier, username));
     }
 }
