@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import classnames from "classnames";
+import { Link } from "react-router-dom";
 import {
   getProjectTask,
   updateProjectTask
@@ -21,13 +21,23 @@ class UpdateProjectTask extends Component {
       priority: "",
       dueDate: "",
       projectIdentifier: "",
-      created_at: "",
+      create_At: "",
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
+  componentDidMount() {
+    const { backlog_id, pt_id } = this.props.match.params;
+    this.props.getProjectTask(backlog_id, pt_id, this.props.history);
+  }
+
   componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+
     const {
       id,
       projectSequence,
@@ -37,7 +47,7 @@ class UpdateProjectTask extends Component {
       priority,
       dueDate,
       projectIdentifier,
-      created_at
+      create_At
     } = nextProps.project_task;
 
     this.setState({
@@ -49,17 +59,8 @@ class UpdateProjectTask extends Component {
       priority,
       dueDate,
       projectIdentifier,
-      created_at
+      create_At
     });
-
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
-  }
-
-  componentDidMount() {
-    const { backlog_id, pt_id } = this.props.match.params;
-    this.props.getProjectTask(backlog_id, pt_id, this.props.history);
   }
 
   onChange(e) {
@@ -69,7 +70,7 @@ class UpdateProjectTask extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    const updateProjectTask = {
+    const UpdateProjectTask = {
       id: this.state.id,
       projectSequence: this.state.projectSequence,
       summary: this.state.summary,
@@ -78,19 +79,21 @@ class UpdateProjectTask extends Component {
       priority: this.state.priority,
       dueDate: this.state.dueDate,
       projectIdentifier: this.state.projectIdentifier,
-      created_at: this.state.created_at
+      create_At: this.state.create_At
     };
 
-    // console.log(updateProjectTask);
+    // console.log(UpdateProjectTask);
     this.props.updateProjectTask(
       this.state.projectIdentifier,
       this.state.projectSequence,
-      updateProjectTask,
+      UpdateProjectTask,
       this.props.history
     );
   }
+
   render() {
     const { errors } = this.state;
+
     return (
       <div className="add-PBI">
         <div className="container">
@@ -104,8 +107,8 @@ class UpdateProjectTask extends Component {
               </Link>
               <h4 className="display-4 text-center">Update Project Task</h4>
               <p className="lead text-center">
-                Project Name: {this.state.projectIdentifier} | Project Code:{" "}
-                {this.state.projectSequence}
+                Project Name: {this.state.projectIdentifier} | Project Task ID:{" "}
+                {this.state.projectSequence}{" "}
               </p>
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
@@ -125,47 +128,30 @@ class UpdateProjectTask extends Component {
                 </div>
                 <div className="form-group">
                   <textarea
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.acceptanceCriteria
-                    })}
+                    className="form-control form-control-lg"
                     placeholder="Acceptance Criteria"
                     name="acceptanceCriteria"
                     value={this.state.acceptanceCriteria}
                     onChange={this.onChange}
                   />
-                  {errors.acceptanceCriteria && (
-                    <div className="invalid-feedback">
-                      {errors.acceptanceCriteria}
-                    </div>
-                  )}
                 </div>
                 <h6>Due Date</h6>
                 <div className="form-group">
                   <input
                     type="date"
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.dueDate
-                    })}
+                    className="form-control form-control-lg"
                     name="dueDate"
                     value={this.state.dueDate}
                     onChange={this.onChange}
                   />
-                  {errors.dueDate && (
-                    <div className="invalid-feedback">{errors.dueDate}</div>
-                  )}
                 </div>
                 <div className="form-group">
                   <select
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.priority
-                    })}
+                    className="form-control form-control-lg"
                     name="priority"
                     value={this.state.priority}
                     onChange={this.onChange}
                   >
-                    {errors.priority && (
-                      <div className="invalid-feedback">{errors.priority}</div>
-                    )}
                     <option value={0}>Select Priority</option>
                     <option value={1}>High</option>
                     <option value={2}>Medium</option>
@@ -175,16 +161,11 @@ class UpdateProjectTask extends Component {
 
                 <div className="form-group">
                   <select
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.status
-                    })}
+                    className="form-control form-control-lg"
                     name="status"
                     value={this.state.status}
                     onChange={this.onChange}
                   >
-                    {errors.status && (
-                      <div className="invalid-feedback">{errors.status}</div>
-                    )}
                     <option value="">Select Status</option>
                     <option value="TO_DO">TO DO</option>
                     <option value="IN_PROGRESS">IN PROGRESS</option>
@@ -207,8 +188,8 @@ class UpdateProjectTask extends Component {
 
 UpdateProjectTask.propTypes = {
   getProjectTask: PropTypes.func.isRequired,
-  updateProjectTask: PropTypes.func.isRequired,
   project_task: PropTypes.object.isRequired,
+  updateProjectTask: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired
 };
 

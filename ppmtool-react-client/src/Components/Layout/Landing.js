@@ -39,7 +39,7 @@ class Landing extends Component {
 }
 
 Landing.propTypes = {
-  seucrity: PropTypes.object.isRequired
+  security: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

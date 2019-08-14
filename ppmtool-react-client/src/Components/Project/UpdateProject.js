@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 
 class UpdateProject extends Component {
-  // set state
+  //set state
   constructor() {
     super();
 
@@ -22,8 +22,10 @@ class UpdateProject extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  // receiving props and updating the state to display as placeholders
   componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
     const {
       id,
       projectName,
@@ -41,30 +43,21 @@ class UpdateProject extends Component {
       start_date,
       end_date
     });
-    if (nextProps.errors) {
-      // grab the errors object and load it
-      this.setState({ errors: nextProps.errors });
-    }
   }
 
   componentDidMount() {
-    // this id comes from the app.js
     const { id } = this.props.match.params;
     this.props.getProject(id, this.props.history);
   }
 
   onChange(e) {
-    // reading the value of the each input
     this.setState({ [e.target.name]: e.target.value });
   }
-  // form submit action
+
   onSubmit(e) {
-    // to not have the webpage refresh
     e.preventDefault();
 
-    // the form getting passed to the server
     const updateProject = {
-      // get the value of each input
       id: this.state.id,
       projectName: this.state.projectName,
       projectIdentifier: this.state.projectIdentifier,
@@ -79,7 +72,7 @@ class UpdateProject extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div className="register">
+      <div className="project">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
@@ -92,7 +85,7 @@ class UpdateProject extends Component {
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.projectName
                     })}
-                    placeholder={this.state.projectName}
+                    placeholder="Project Name"
                     name="projectName"
                     value={this.state.projectName}
                     onChange={this.onChange}
@@ -104,30 +97,23 @@ class UpdateProject extends Component {
                 <div className="form-group">
                   <input
                     type="text"
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.projectIdentifier
-                    })}
-                    placeholder={this.state.projectIdentifier}
+                    className="form-control form-control-lg"
+                    placeholder="Unique Project ID"
                     name="projectIdentifier"
                     value={this.state.projectIdentifier}
                     onChange={this.onChange}
                     disabled
                   />
-                  {errors.projectIdentifier && (
-                    <div className="invalid-feedback">
-                      {errors.projectIdentifier}
-                    </div>
-                  )}
                 </div>
                 <div className="form-group">
                   <textarea
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.description
                     })}
-                    placeholder={this.state.description}
+                    placeholder="Project Description"
                     name="description"
-                    value={this.state.description}
                     onChange={this.onChange}
+                    value={this.state.description}
                   />
                   {errors.description && (
                     <div className="invalid-feedback">{errors.description}</div>
