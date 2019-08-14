@@ -18,6 +18,13 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  // when you're logged in, you don't have to log in again
+  componentDidMount() {
+    if (this.props.security.validToken) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
