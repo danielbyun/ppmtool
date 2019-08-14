@@ -3,7 +3,6 @@ import { createNewUser } from "../../Actions/securityActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
-import { create } from "istanbul-reports";
 
 class Register extends Component {
   constructor() {
@@ -58,42 +57,64 @@ class Register extends Component {
                 <div className="form-group">
                   <input
                     type="text"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.fullName
+                    })}
                     placeholder="Full Name"
                     name="fullName"
                     value={this.state.fullName}
                     onChange={this.onChange}
                   />
+                  {errors.fullName && (
+                    <div className="invalid-feedback">{errors.fullName}</div>
+                  )}
                 </div>
                 <div className="form-group">
                   <input
                     type="email"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.username
+                    })}
                     placeholder="Email Address [Username]"
                     name="username"
                     value={this.state.username}
                     onChange={this.onChange}
                   />
+                  {errors.username && (
+                    <div className="invalid-feedback">{errors.username}</div>
+                  )}
                 </div>
                 <div className="form-group">
                   <input
                     type="password"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.password
+                    })}
                     placeholder="Password"
                     name="password"
                     value={this.state.password}
                     onChange={this.onChange}
                   />
+                  {errors.password && (
+                    <div className="invalid-feedback">{errors.password}</div>
+                  )}
                 </div>
                 <div className="form-group">
                   <input
                     type="password"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.confirmPassword
+                    })}
                     placeholder="Confirm Password"
                     name="confirmPassword"
                     value={this.state.confirmPassword}
                     onChange={this.onChange}
                   />
+                  {errors.confirmPassword && (
+                    <div className="invalid-feedback">
+                      {errors.confirmPassword}
+                    </div>
+                  )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
@@ -106,7 +127,7 @@ class Register extends Component {
 }
 Register.propTypes = {
   createNewUser: PropTypes.func.isRequired,
-  erorrs: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
