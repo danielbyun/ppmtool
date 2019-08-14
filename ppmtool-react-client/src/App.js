@@ -17,6 +17,7 @@ import Login from "./Components/UserManagement/Login";
 import jwt_decode from "jwt-decode";
 import setJwtToken from "./SecurityUtils/setJwtToken";
 import { SET_CURRENT_USER } from "./Actions/types";
+import { logout } from "./Actions/securityActions";
 
 // token will be valid in the localStorage until the expiry time i assigned in the server
 // so retrieve it and assign it using the setJwtToken() method I created, so that all the other Routes will be available with jwtToken in the header ["Authorization"]
@@ -36,8 +37,8 @@ if (jwtToken) {
   // if the token is expired
   if (decoded_jwtToken.exp < currentTime) {
     // handle logout
-    // window.location.href = "/";
-    // clear token in the localStorage
+    store.dispatch(logout());
+    window.location.href = "/";
   }
 }
 

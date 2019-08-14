@@ -55,3 +55,18 @@ export const login = LoginRequest => async dispatch => {
     });
   }
 };
+
+// logout function
+export const logout = () => dispatch => {
+  // remove token in the localStorage
+  localStorage.removeItem("jwtToken");
+  setJwtToken(false);
+
+  alert("Your session has expired. Please log in again!");
+
+  // no currently logged in user
+  dispatch({
+    type: SET_CURRENT_USER,
+    payload: {}
+  });
+};
