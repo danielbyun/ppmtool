@@ -125,13 +125,13 @@ class AddProjectTask extends Component {
                     value={this.state.priority}
                     onChange={this.onChange}
                   >
-                    {errors.priority && (
-                      <div className="invalid-feedback">{errors.priority}</div>
-                    )}
                     <option value={0}>Select Priority</option>
                     <option value={1}>High</option>
                     <option value={2}>Medium</option>
                     <option value={3}>Low</option>
+                    {errors.priority && (
+                      <div className="invalid-feedback">{errors.priority}</div>
+                    )}
                   </select>
                 </div>
 
@@ -144,14 +144,14 @@ class AddProjectTask extends Component {
                     value={this.state.status}
                     onChange={this.onChange}
                   >
-                    {errors.status && (
-                      <div className="invalid-feedback">{errors.status}</div>
-                    )}
                     <option value="">Select Status</option>
                     <option value="TO_DO">TO DO</option>
                     <option value="IN_PROGRESS">IN PROGRESS</option>
                     <option value="DONE">DONE</option>
                   </select>
+                  {errors.status && (
+                    <div className="invalid-feedback">{errors.status}</div>
+                  )}
                 </div>
 
                 <input

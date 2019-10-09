@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { login } from "../../Actions/securityActions";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import ModalTest from "./Modal";
 
 class Login extends Component {
   constructor() {
@@ -11,11 +13,19 @@ class Login extends Component {
     this.state = {
       username: "",
       password: "",
-      errors: {}
+      errors: {},
+      modal: false
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
   }
 
   // when you're logged in, you don't have to log in again
@@ -90,6 +100,10 @@ class Login extends Component {
                   )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
+                <Button color="danger" onClick={this.toggle}>
+                  test
+                </Button>
+                <ModalTest modal={this.state.modal} toggle={this.toggle} />
               </form>
             </div>
           </div>

@@ -26,6 +26,19 @@ public class BacklogController {
         this.mapValidationErrorService = mapValidationErrorService;
     }
 
+    // getting all project tasks associated with the project
+    @GetMapping("/{backlog_id}")
+    public Iterable<ProjectTask> getProjectBacklog(@PathVariable String backlog_id, Principal principal) {
+        return projectTaskService.findBacklogById(backlog_id, principal.getName());
+    }
+
+    @GetMapping("/{backlog_id}/{pt_id}")
+    public ResponseEntity<?> getProjectTask(@PathVariable String backlog_id, @PathVariable String pt_id,
+                                            Principal principal) {
+        ProjectTask projectTask = projectTaskService.findPTByProjectSequence(backlog_id, pt_id, principal.getName());
+        return new ResponseEntity<>(projectTask, HttpStatus.OK); // happy path
+    }
+
     @PostMapping("/{backlog_id}")
     public ResponseEntity<?> addProjectTaskToBacklog(@Valid @RequestBody ProjectTask projectTask,
                                                      BindingResult result, @PathVariable String backlog_id,
@@ -40,19 +53,6 @@ public class BacklogController {
         ProjectTask newProjectTask = projectTaskService.addProjectTask(backlog_id, projectTask, principal.getName());
 
         return new ResponseEntity<>(newProjectTask, HttpStatus.CREATED);
-    }
-
-    // getting all project tasks associated with the project
-    @GetMapping("/{backlog_id}")
-    public Iterable<ProjectTask> getProjectBacklog(@PathVariable String backlog_id, Principal principal) {
-        return projectTaskService.findBacklogById(backlog_id, principal.getName());
-    }
-
-    @GetMapping("/{backlog_id}/{pt_id}")
-    public ResponseEntity<?> getProjectTask(@PathVariable String backlog_id, @PathVariable String pt_id,
-                                            Principal principal) {
-        ProjectTask projectTask = projectTaskService.findPTByProjectSequence(backlog_id, pt_id, principal.getName());
-        return new ResponseEntity<>(projectTask, HttpStatus.OK); // happy path
     }
 
     // update by using PATCH

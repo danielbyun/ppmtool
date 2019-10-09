@@ -61,12 +61,6 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
     @Override
     public Iterable<ProjectTask> findBacklogById(String backlog_id, String username) {
-//        Project project = projectRepository.findByProjectIdentifier(backlog_id);
-//
-//        if (project == null) {
-//            throw new ProjectNotFoundException("Project with ID: '" + backlog_id + "' does not exist.");
-//        }
-
         projectService.findByProjectIdentifier(backlog_id, username);
 
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(backlog_id);

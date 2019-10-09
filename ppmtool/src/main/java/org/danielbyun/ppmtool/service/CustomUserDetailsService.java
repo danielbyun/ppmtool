@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         // extract user
         User user = userRepository.findByUsername(username);
 
-        if (user == null) new UsernameNotFoundException("User not found");
+        if (user == null) throw new UsernameNotFoundException("User not found");
 
         return user;
     }
@@ -32,7 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public User loadUserById(Long id) {
         User user = userRepository.getById(id);
 
-        if (user == null) new UsernameNotFoundException("User not found");
+        if (user == null) throw new UsernameNotFoundException("User not found");
 
         return user;
     }
