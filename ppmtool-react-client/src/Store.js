@@ -19,6 +19,7 @@ if (
   ReactReduxDevTools &&
   process.env.NODE_ENV === "development"
 ) {
+  // only open store in development mode
   store = createStore(
     rootReducer,
     initialState,
