@@ -14,15 +14,16 @@ let store;
 const ReactReduxDevTools =
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 
-if (window.navigator.userAgent.includes("Chrome") && ReactReduxDevTools) {
+if (
+  window.navigator.userAgent.includes("Chrome") &&
+  ReactReduxDevTools &&
+  process.env.NODE_ENV === "development"
+) {
   store = createStore(
     rootReducer,
     initialState,
     // this way if we add more middlewares in the above array, it'll automatically update
-    compose(
-      applyMiddleware(...middleware),
-      ReactReduxDevTools
-    )
+    compose(applyMiddleware(...middleware), ReactReduxDevTools)
   );
 } else {
   // in other browsers other than chrome
